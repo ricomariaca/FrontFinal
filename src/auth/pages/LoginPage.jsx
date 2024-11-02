@@ -15,16 +15,7 @@ export const LoginPage = () => {
 
   const onLogin = async (event) => {
     event.preventDefault();
-    const isValidLogin = await login(email, password);
-    if (isValidLogin) {
-      const lastPath = localStorage.getItem("lastPath") || "/";
-      navigate(lastPath, { replace: true });
-    }
-  };
-
-  const onGoogleLogin = async (event) => {
-    event.preventDefault();
-    const isValidLogin = await loginGoogle();
+    const isValidLogin = await login(username, password);
     if (isValidLogin) {
       const lastPath = localStorage.getItem("lastPath") || "/";
       navigate(lastPath, { replace: true });

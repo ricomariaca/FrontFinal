@@ -1,10 +1,10 @@
 import { collection, getDocs } from "firebase/firestore/lite";
-import { FirebaseDB } from "../../firebase/config";
+//import { FirebaseDB } from "../../firebase/config";
  
 export const loadProducts = async () => {
-    const collectionRef = collection(FirebaseDB, "products");
+    /*const collectionRef = collection(FirebaseDB, "products");
  
-    const docs = await getDocs(collectionRef);
+    const docs = await getDocs(collectionRef); 
    
     const products = []
    
@@ -12,8 +12,8 @@ export const loadProducts = async () => {
       products.push(
         { id: doc.id, ...doc.data() }
       )
-    });
+    }); 
    
-    return products;
+    return products; */
 }
  
