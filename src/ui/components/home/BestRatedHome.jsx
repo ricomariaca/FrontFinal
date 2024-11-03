@@ -3,7 +3,7 @@ import "react-multi-carousel/lib/styles.css";
 import { CardProduct } from "../common/CardProduct";
 
 export const BestRatedHome = () => {
-  const responsive = {
+  /*const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 1024 },
       items: 5,
@@ -64,9 +64,9 @@ export const BestRatedHome = () => {
       name: "Title5",
       description: "aaa",
     },
-  ];
+  ];*/
 
-  const card = ProducData.map((item) => (
+  /*const card = ProducData.map((item) => (
     <CardProduct
       name={item.name}
       url={item.imageurl}
@@ -82,5 +82,5 @@ export const BestRatedHome = () => {
 
       <Carousel responsive={responsive}>{card}</Carousel>
     </div>
-  );
+  );*/
 };
