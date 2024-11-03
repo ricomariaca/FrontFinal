@@ -13,9 +13,6 @@ export const BannerHome = () => {
           Get Started
         </button>
       </div>
-      <div className="mx-8">
-        <img src={images.banner} alt="Banner" />
-      </div>
     </div>
   );
 };
