@@ -1,8 +1,8 @@
 import { collection, getDocs } from "firebase/firestore/lite";
-import { FirebaseDB } from "../../firebase/config";
+//import { FirebaseDB } from "../../firebase/config";
  
 export const loadReview = async () => {
-    const collectionRef = collection(FirebaseDB, "review");
+    /*const collectionRef = collection(FirebaseDB, "review");
  
     const docs = await getDocs(collectionRef);
    
@@ -14,6 +14,6 @@ export const loadReview = async () => {
       )
     });
    
-    return review;
+    return review; */
 }
  

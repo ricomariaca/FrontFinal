@@ -1,7 +1,7 @@
 import React, { useContext, useReducer } from 'react'
 import { productReducer } from '../reducers/productReducer'
 import { AuthContext } from '../../auth'
-import { FirebaseDB } from '../../firebase/config'
+//import { FirebaseDB } from '../../firebase/config'
 import { productTypes } from '../types'
 import { ProductContext } from './ProductContext'
 import { collection, doc, setDoc } from 'firebase/firestore/lite'
@@ -19,13 +19,14 @@ export const ProductProvider = ({children}) => {
     
         try {
             console.log(product)
-            const newProduct = doc(collection(FirebaseDB, "products"));
+           
+           /* const newProduct = doc(collection(FirebaseDB, "products"));
            
             console.log(newProduct)
 
-            await setDoc(newProduct, product);
+           await setDoc(newProduct, product);
 
-            product.id = newProduct.id
+            product.id = newProduct.id */
 
             const action = { type: productTypes.saveProduct, payload: product }
 

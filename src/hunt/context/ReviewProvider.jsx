@@ -1,7 +1,7 @@
 import { useContext, useReducer } from 'react'
 import { reviewReducer } from '../reducers'
 import { AuthContext } from '../../auth'
-import { FirebaseDB } from '../../firebase/config'
+//import { FirebaseDB } from '../../firebase/config'
 import { ReviewTypes } from '../types'
 import { ReviewContext } from './ReviewContext'
 import { collection, doc, setDoc } from 'firebase/firestore/lite'
@@ -21,7 +21,7 @@ export const ReviewProvider = ({children}) => {
     
         try {
             console.log(review)
-            const newReview = doc(collection(FirebaseDB, "review"));
+            /*const newReview = doc(collection(FirebaseDB, "review"));
            
             console.log(newReview)
 
@@ -31,7 +31,7 @@ export const ReviewProvider = ({children}) => {
 
             const action = { type: ReviewTypes.saveReview, payload: review }
 
-            dispatch(action);
+            dispatch(action); */
 
         } catch (error) {
             console.log(error)

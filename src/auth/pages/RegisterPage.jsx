@@ -6,17 +6,19 @@ import { Link, useNavigate } from "react-router-dom";
 const initForm = {
   email: "",
   password: "",
-  displayName: "",
+  Name: "",
+  LastName: "",
+  Username: "",
 };
 
 export const RegisterPage = () => {
   const { register, errorMessage } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { email, password, displayName, onInputChange } = useForm(initForm);
+  const { email, password, Name, LastName, Username, onInputChange } = useForm(initForm);
 
   const onRegister = async (event) => {
     event.preventDefault();
-    const isValidRegister = await register(email, password, displayName);
+    const isValidRegister = await register(email, password, Name, LastName, Username);
 
     if (isValidRegister) {
       const lastPath = localStorage.getItem("lastPath") || "/";
@@ -32,16 +34,16 @@ export const RegisterPage = () => {
           <form>
             <div className="mb-4">
               <label
-                htmlFor="displayName"
+                htmlFor="text"
                 className="block text-sm font-medium text-gray-700"
               >
                 Name
               </label>
               <input
-                type="text"
-                id="displayName"
-                name="displayName"
-                value={displayName}
+                type="Name"
+                id="Name"
+                name="Name"
+                value={Name}
                 onChange={onInputChange}
                 placeholder="Enter name"
                 className="mt-1 p-2 w-full border rounded-md"
@@ -49,16 +51,16 @@ export const RegisterPage = () => {
             </div>
             <div className="mb-4">
               <label
-                htmlFor="email"
+                htmlFor="Last Name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Last Name
               </label>
               <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                value={displayName}
+                type="Last Name"
+                id="LastName"
+                name="LastName"
+                value={LastName}
                 onChange={onInputChange}
                 placeholder="Enter last name"
                 className="mt-1 p-2 w-full border rounded-md"
@@ -66,16 +68,16 @@ export const RegisterPage = () => {
             </div>
             <div className="mb-4">
               <label
-                htmlFor="username"
+                htmlFor="Username"
                 className="block text-sm font-medium text-gray-700"
               >
                 Username
               </label>
               <input
-                type="text"
-                id="username"
-                name="username"
-                value={displayName}
+                type="Username"
+                id="Username"
+                name="Username"
+                value={Username}
                 onChange={onInputChange}
                 placeholder="Enter username"
                 className="mt-1 p-2 w-full border rounded-md"

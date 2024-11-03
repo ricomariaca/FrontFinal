@@ -3,13 +3,7 @@ import { useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
 import { authTypes } from "../types";
-import {
-  signInUser,
-  logoutUser,
-  singInWithGoogle,
-  registerUser,
-} from "../../firebase/providers";
-
+ 
 const initialState = { logged: false };
 
 const init = () => {
