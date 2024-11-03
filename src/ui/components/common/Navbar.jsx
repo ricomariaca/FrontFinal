@@ -31,49 +31,13 @@ export const Navbar = () => {
     <>
       <nav className="bg-white py-4 px-6 flex justify-between items-center">
         <Link to="/" className="text-lg font-bold text-black">
-          Product hunt
+        TWEETS 
         </Link>
 
         <div className="flex items-center">
-          <ul className="flex justify-center space-x-6">
-            <div className="flex items-center mr">
-              <img src={icon.lupa} className="mr-5 " alt="Search Icon" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="placeholder-teal-600 focus:placeholder-gray-300"
-              />
-            </div>
-
-            <li>
-              <NavLink to="/" className="nav-link text-teal-600 mr-20">
-                About us
-              </NavLink>
-            </li>
-            {!logged && (
-              <li>
-                <NavLink
-                  to="/publicProducts"
-                  className="nav-link text-teal-600 mr-20"
-                >
-                  Products
-                </NavLink>
-              </li>
-            )}
-          </ul>
-          {logged && (
-            <>
-              <NavLink
-                to="/publicProductslog"
-                className="nav-link text-teal-600 mr-20"
-              >
-                Products
-              </NavLink>
-            </>
-          )}
-
+          
           {!logged && (
-            <NavLink to="/login" className="nav-link text-teal-600 mr-96">
+            <NavLink to="/login" className="nav-link text-black mr-96">
               Login
             </NavLink>
           )}
