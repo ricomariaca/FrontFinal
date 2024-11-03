@@ -1,9 +1,9 @@
 import { useReducer } from "react";
-
+import axios from "axios";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
 import { authTypes } from "../types";
- 
+
 const initialState = { logged: false };
 
 const init = () => {
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       return false;
     }
 
-    const payload = { uid, email, photoURL, displayName, email };
+    const payload = { uid, email, photoURL, displayName };
 
     const action = { type: authTypes.login, payload };
 
@@ -65,25 +65,27 @@ export const AuthProvider = ({ children }) => {
     return true;
   };
 
-  const logout = async () => {
-    await logoutUser();
-
+  const logout = () => {
     localStorage.removeItem("user");
+
     dispatch({ type: authTypes.logout });
   };
 
-  const register = async (email, password, displayName) => {
-    const { ok, errorMessage, photoURL, uid } = await registerUser({
+  const register = async (email, password, name, lastName, username) => {
+    const response = await axios.post("http://localhost:3001/api/register", {
+      name,
+      lastName,
+      username,
       email,
-      displayName,
       password,
     });
 
     const payload = {
-      uid,
-      email,
-      photoURL,
-      displayName,
+      email: response.email,
+      name: response.name,
+      password,
+      lastName,
+      username,
     };
     const action = { type: authTypes.login, payload };
     localStorage.setItem("user", JSON.stringify(payload));

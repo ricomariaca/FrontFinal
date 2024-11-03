@@ -4,22 +4,53 @@ import { AuthContext } from "../context";
 import { useForm } from "../../hooks";
 
 const initForm = {
-  email: "",
+  username: "",
   password: "",
 };
 
 export const LoginPage = () => {
-  const { login, errorMessage, loginGoogle } = useContext(AuthContext);
+  const { login, errorMessage } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { email, password, onInputChange } = useForm(initForm);
+  const { username, password, onInputChange } = useForm(initForm);
 
   const onLogin = async (event) => {
     event.preventDefault();
     const isValidLogin = await login(username, password);
     if (isValidLogin) {
+      try {
+        const response = await axios.post("http://localhost:3001/api/login", {
+          username,
+          password,
+        });
+
+        setServerMessage(response.data.message);
+      } catch (error) {
+        setServerMessage(
+          error.response?.data?.message || "Error en el registro."
+        );
+      }
       const lastPath = localStorage.getItem("lastPath") || "/";
       navigate(lastPath, { replace: true });
     }
+  };
+
+  const onLoginasd = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:3001/api/login", {
+        username,
+        password,
+      });
+
+      setServerMessage(response.data.message);
+    } catch (error) {
+      setServerMessage(
+        error.response?.data?.message || "Error en el registro."
+      );
+    }
+    const lastPath = localStorage.getItem("lastPath") || "/";
+    navigate(lastPath, { replace: true });
   };
 
   return (
@@ -28,21 +59,27 @@ export const LoginPage = () => {
         <h2 className="text-3xl font-bold text-blue-500 mb-6">Login</h2>
         <form>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Username
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
+              type="username"
+              id="username"
+              name="username"
+              value={username}
               onChange={onInputChange}
               placeholder="Enter email"
               className="mt-1 p-2 w-full border rounded-md"
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -68,11 +105,12 @@ export const LoginPage = () => {
             </div>
           )}
         </form>
-        
+
         <div className="mt-4 text-sm text-gray-500">
           <span>Don't have an account?</span>
           <NavLink to="/register" className="text-blue-500 hover:underline">
-            {" "}Register
+            {" "}
+            Register
           </NavLink>
         </div>
       </div>

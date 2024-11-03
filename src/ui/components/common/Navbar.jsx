@@ -31,11 +31,10 @@ export const Navbar = () => {
     <>
       <nav className="bg-white py-4 px-6 flex justify-between items-center">
         <Link to="/" className="text-lg font-bold text-black">
-        TWEETS 
+          TWEETS
         </Link>
 
         <div className="flex items-center">
-          
           {!logged && (
             <NavLink to="/login" className="nav-link text-black mr-96">
               Login

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useForm } from "../../hooks";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const initForm = {
   email: "",
@@ -12,27 +13,23 @@ const initForm = {
 };
 
 export const RegisterPage = () => {
+  const { register } = useContext(AuthContext);
+  const navigate = useNavigate();
   const { email, password, name, lastName, username, onInputChange } =
     useForm(initForm);
-  const [serverMessage, setServerMessage] = useState("");
-
   const onRegister = async (event) => {
     event.preventDefault();
+    const isValidRegister = await register(
+      email,
+      password,
+      name,
+      lastName,
+      username
+    );
 
-    try {
-      const response = await axios.post("http://localhost:3001/api/register", {
-        name,
-        lastName,
-        username,
-        email,
-        password,
-      });
-
-      setServerMessage(response.data.message);
-    } catch (error) {
-      setServerMessage(
-        error.response?.data?.message || "Error en el registro."
-      );
+    if (isValidRegister) {
+      const lastPath = localStorage.getItem("lastPath") || "/";
+      navigate(lastPath, { replace: true });
     }
   };
 
@@ -128,20 +125,12 @@ export const RegisterPage = () => {
               />
             </div>
             <button
+              onClick={onRegister}
               type="submit"
               className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
             >
               Register
             </button>
-            <br />
-            {serverMessage && (
-              <div
-                className="alert alert-info mt-2 text-green-600"
-                role="alert"
-              >
-                {serverMessage}
-              </div>
-            )}
           </form>
           <span className="text-gray-700">
             Do you have an existing account?
