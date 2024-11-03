@@ -35,6 +35,7 @@ export const Navbar = () => {
         </Link>
 
         <div className="flex items-center">
+        <img src={icon.mj} className="w-6 h-6" alt="Icon" />
           
           {!logged && (
             <NavLink to="/login" className="nav-link text-black mr-96">
