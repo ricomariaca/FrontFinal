@@ -60,7 +60,7 @@ export const Navbar = () => {
               </div>
 
               <span className="mr-4 text-teal-600">
-                {`Hello, ${user?.displayName}`}
+                {`Hello, ${user?.username}`}
               </span>
               <div className="relative mr-20">
                 <img

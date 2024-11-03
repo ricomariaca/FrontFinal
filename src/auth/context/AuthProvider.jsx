@@ -17,26 +17,23 @@ const init = () => {
 export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
-  const login = async (email = "", password = "") => {
-    const { ok, uid, photoURL, displayName, errorMessage } = await signInUser(
-      email,
-      password
-    );
+  const login = async (username, password) => {
+    const response = await axios.post("http://localhost:3001/api/login", {
+      username,
+      password,
+    });
 
-    if (!ok) {
-      dispatch({ type: authTypes.error, payload: { errorMessage } });
-      return false;
+    if (!response.ok) {
+      const payload = { username, password };
+
+      const action = { type: authTypes.login, payload };
+
+      localStorage.setItem("user", JSON.stringify(payload));
+
+      dispatch(action);
+
+      return true;
     }
-
-    const payload = { uid, email, photoURL, displayName };
-
-    const action = { type: authTypes.login, payload };
-
-    localStorage.setItem("user", JSON.stringify(payload));
-
-    dispatch(action);
-
-    return true;
   };
 
   const loginGoogle = async () => {
@@ -81,8 +78,8 @@ export const AuthProvider = ({ children }) => {
     });
 
     const payload = {
-      email: response.email,
-      name: response.name,
+      email,
+      name,
       password,
       lastName,
       username,

@@ -9,7 +9,7 @@ const initForm = {
 };
 
 export const LoginPage = () => {
-  const { login, errorMessage } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const { username, password, onInputChange } = useForm(initForm);
 
@@ -17,18 +17,6 @@ export const LoginPage = () => {
     event.preventDefault();
     const isValidLogin = await login(username, password);
     if (isValidLogin) {
-      try {
-        const response = await axios.post("http://localhost:3001/api/login", {
-          username,
-          password,
-        });
-
-        setServerMessage(response.data.message);
-      } catch (error) {
-        setServerMessage(
-          error.response?.data?.message || "Error en el registro."
-        );
-      }
       const lastPath = localStorage.getItem("lastPath") || "/";
       navigate(lastPath, { replace: true });
     }
@@ -99,11 +87,6 @@ export const LoginPage = () => {
           >
             Login
           </button>
-          {errorMessage && (
-            <div className="mt-4 text-red-500 text-sm" role="alert">
-              {errorMessage}
-            </div>
-          )}
         </form>
 
         <div className="mt-4 text-sm text-gray-500">
