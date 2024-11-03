@@ -35,11 +35,8 @@ export const Navbar = () => {
         </Link>
 
         <div className="flex items-center">
-<<<<<<< HEAD
-=======
-        <img src={icon.mj} className="w-6 h-6" alt="Icon" />
-          
->>>>>>> e28e7ef8c4abb256b2f42590fc28345950358f8a
+          <img src={icon.mj} className="w-6 h-6" alt="Icon" />
+
           {!logged && (
             <NavLink to="/login" className="nav-link text-black mr-96">
               Login
