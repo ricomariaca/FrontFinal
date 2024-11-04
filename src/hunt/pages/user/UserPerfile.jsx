@@ -7,8 +7,7 @@ export const UserPerfile = () => {
       <Navbar />
       <div className="bg-gray-300 min-h-screen flex flex-col items-center">
         <div className="w-full h-24 bg-gray-800"></div>
-
-        
+                
         <div className="relative -mt-10 w-11/12 bg-gray-200 rounded-md shadow-md p-4 ">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
