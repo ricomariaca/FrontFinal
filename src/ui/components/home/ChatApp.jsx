@@ -72,82 +72,72 @@ export const ChatApp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-50">
-      <div className="row justify-content-center">
-        <div className="col-lg-6 col-md-8 col-sm-12">
-          <ConnetionManager />
-
-          <div className="card border-primary shadow-sm mt-4">
-            <div className="card-header bg-primary text-white">
-              <h2 className="text-center">
-                Chat Room <ConnectionState isConnected={isConnected} />
-              </h2>
-            </div>
-            <div
-              className="card-body chat-body"
-              style={{ height: "400px", overflowY: "auto" }}
-            >
-              <ul className="list-group list-group-flush">
-                {messages.map((message, index) => (
-                  <li key={index} className="list-group-item">
-                    <div className="d-flex align-items-start mb-2">
-                      {!logged && <strong>PayForPhoto</strong>}
-
-                      {logged && (
-                        <img
-                          src={message.user.userPhoto}
-                          className="rounded-circle me-2"
-                          alt="Avatar"
-                          width="40"
-                          height="40"
-                        />
-                      )}
-
-                      <div className="ms-2">
-                        {!logged && <strong>Indefinido</strong>}
-
-                        {logged && <strong>{message.user.username}</strong>}
-                        <span className="text-muted small ms-2">
-                          {message.timestamp}
-                        </span>
-                      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-300">
+      <div className="flex flex-col items-center w-full max-w-2xl">
+        <ConnetionManager />
+  
+        <div className="w-full bg-white border border-gray-600 shadow-md rounded-lg mt-4">
+          <div className="bg-gray-800 text-white p-4 rounded-t-lg">
+            <h2 className="text-center text-xl font-bold">
+              Chat Room <ConnectionState isConnected={isConnected} />
+            </h2>
+          </div>
+          <div
+            className="p-4 overflow-y-auto"
+            style={{ height: "400px" }}
+          >
+            <ul className="space-y-2">
+              {messages.map((message, index) => (
+                <li key={index} className="bg-gray-100 rounded-lg p-2">
+                  <div className="flex items-start space-x-2">
+                    {!logged && <strong className="text-gray-800">PayForPhoto</strong>}
+  
+                    {logged && (
+                      <img
+                        src={message.user.userPhoto}
+                        alt="Avatar"
+                        className="w-10 h-10 rounded-full"
+                      />
+                    )}
+  
+                    <div>
+                      {!logged && <strong className="text-gray-800">Indefinido</strong>}
+                      {logged && <strong className="text-gray-800">{message.user.username}</strong>}
+                      <span className="text-gray-500 text-sm ml-2">
+                        {message.timestamp}
+                      </span>
                     </div>
-
-                    <p
-                      className={`mb-0 chat-bubble ${isStatusMessage(
-                        message.type
-                      )}`}
-                    >
-                      {message.text}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="card-footer">
-              <form onSubmit={onSubmit}>
-                <div className="input-group">
-                  <input
-                    type="text"
-                    value={newMessage}
-                    onChange={handleInputChange}
-                    placeholder="Type a message..."
-                    className="form-control"
-                    disabled={isLoading || !isConnected}
-                  />
-                  <button
-                    className="btn btn-primary"
-                    type="submit"
-                    disabled={isLoading || !isConnected}
+                  </div>
+                  <p
+                    className={`mt-1 text-gray-700 ${isStatusMessage(message.type)}`}
                   >
-                    Send
-                  </button>
-                </div>
-              </form>
-            </div>
+                    {message.text}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="p-4 border-t">
+            <form onSubmit={onSubmit} className="flex space-x-2">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={handleInputChange}
+                placeholder="Type a message..."
+                className="flex-1 border rounded-md p-2"
+                disabled={isLoading || !isConnected}
+              />
+              <button
+                type="submit"
+                className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-300 disabled:bg-gray-300"
+                disabled={isLoading || !isConnected}
+              >
+                Send
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
   );
-};
+};  
