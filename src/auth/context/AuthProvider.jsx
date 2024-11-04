@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
@@ -18,16 +18,13 @@ export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
   const login = async (username, password) => {
-    const { ok, id_user } = await axios.post(
-      "http://localhost:3001/api/login",
-      {
-        username,
-        password,
-      }
-    );
+    const response = await axios.post("http://localhost:3001/api/login", {
+      username,
+      password,
+    });
 
-    if (!ok) {
-      const payload = { id_user, password, ok };
+    if (!response.ok) {
+      const payload = { username, password };
 
       const action = { type: authTypes.login, payload };
 
@@ -72,7 +69,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (email, password, name, lastName, username) => {
-    const response = await axios.post("http://localhost:3001/api/register", {
+    const { ok } = await axios.post("http://localhost:3001/api/register", {
       name,
       lastName,
       username,
@@ -92,7 +89,7 @@ export const AuthProvider = ({ children }) => {
 
     dispatch(action);
 
-    return response.ok;
+    return ok;
   };
 
   return (
