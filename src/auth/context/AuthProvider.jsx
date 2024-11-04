@@ -18,13 +18,16 @@ export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
   const login = async (username, password) => {
-    const response = await axios.post("http://localhost:3001/api/login", {
-      username,
-      password,
-    });
+    const { ok, id_user } = await axios.post(
+      "http://localhost:3001/api/login",
+      {
+        username,
+        password,
+      }
+    );
 
-    if (!response.ok) {
-      const payload = { username, password };
+    if (!ok) {
+      const payload = { id_user, password, ok };
 
       const action = { type: authTypes.login, payload };
 
@@ -89,7 +92,7 @@ export const AuthProvider = ({ children }) => {
 
     dispatch(action);
 
-    return true;
+    return response.ok;
   };
 
   return (

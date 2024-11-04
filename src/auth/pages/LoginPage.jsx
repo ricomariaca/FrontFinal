@@ -22,25 +22,6 @@ export const LoginPage = () => {
     }
   };
 
-  const onLoginasd = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.post("http://localhost:3001/api/login", {
-        username,
-        password,
-      });
-
-      setServerMessage(response.data.message);
-    } catch (error) {
-      setServerMessage(
-        error.response?.data?.message || "Error en el registro."
-      );
-    }
-    const lastPath = localStorage.getItem("lastPath") || "/";
-    navigate(lastPath, { replace: true });
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-50">
       <div className="max-w-md w-full bg-white p-8 shadow-xl rounded-xl">
