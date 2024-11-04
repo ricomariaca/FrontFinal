@@ -36,10 +36,10 @@ export const BannerHome = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-50">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900">
      <div className="mx-8">
      <div className="text-center">
-     <h1 className="font-bold text-2xl">RECOMMENDED TWEETS</h1>
+     <h1 className="font-bold text-2xl text-white">RECOMMENDED TWEETS</h1>
     </div>
 
       <div className="mt-6 space-y-4 flex flex-col items-center">
