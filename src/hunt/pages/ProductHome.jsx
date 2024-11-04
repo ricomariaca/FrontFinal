@@ -6,11 +6,13 @@ import { LatestPosts } from "../../ui/components/home/LatestPosts";
 import { InformationSpaceHome } from "../../ui/components/home/InformationSpaceHome";
 import { BestRatedHome } from "../../ui/components/home/BestRatedHome";
 import { Footer } from "../../ui/components/home/Footer";
+import { ChatApp } from "../../ui/components/home/ChatApp";
 
 export const ProductHome = () => {
   return (
     <>
       <Navbar />
+      <ChatApp />
       <BannerHome />
       <LatestPosts />
       <InformationSpaceHome />
