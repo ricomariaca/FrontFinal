@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export const ProductList = () => {
   return (
     <>
-      <div>ProductList</div>
+      <div>TWEETS</div>
       <div>
         <ul>
           <li>
@@ -11,7 +11,7 @@ export const ProductList = () => {
               to="/addPoduct"
               className="nav-link flex w-full justify-center rounded-md bg-teal-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-teal-500"
             >
-              Edit products
+              Edit tweets
             </NavLink>
           </li>
         </ul>

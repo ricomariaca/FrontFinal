@@ -70,21 +70,13 @@ export const Navbar = () => {
                   onClick={toggleMenu}
                 />
                 {showMenu && (
-                  <ul className="absolute right-0 mt-2 py-2 bg-white border rounded-md shadow-lg min-w-max">
+                  <ul className="absolute z-50 right-0 mt-2 py-2 bg-white border rounded-md shadow-lg min-w-max ">
                     <li>
                       <NavLink
                         to="/perfil"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       >
                         Profile
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink
-                        to="/myProducts"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Products
                       </NavLink>
                     </li>
 

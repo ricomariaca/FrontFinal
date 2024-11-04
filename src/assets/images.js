@@ -4,6 +4,9 @@ import produc from './img/produc.jpg'
 import edit from './img/edit.jpg'
 import banner from './img/Imagenbanner.png'
 import wii1 from './img/wii1.jpg'
+import inicio1 from './img/inicio1.png'
+
+
 
 
 
@@ -14,5 +17,6 @@ export default {
     "img5": edit,
     "banner": banner,
     "wii1": wii1,
+    "inicio1": inicio1
 
 }

@@ -3,6 +3,8 @@ import { useForm } from "../../hooks";
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import images from "../../assets/images";
+
 
 const initForm = {
   email: "",
@@ -15,17 +17,11 @@ const initForm = {
 export const RegisterPage = () => {
   const { register } = useContext(AuthContext);
   const navigate = useNavigate();
-  const { email, password, name, lastName, username, onInputChange } =
-    useForm(initForm);
+  const { email, password, name, lastName, username, onInputChange } = useForm(initForm);
+
   const onRegister = async (event) => {
     event.preventDefault();
-    const isValidRegister = await register(
-      email,
-      password,
-      name,
-      lastName,
-      username
-    );
+    const isValidRegister = await register(email, password, name, lastName, username);
 
     if (isValidRegister) {
       const lastPath = localStorage.getItem("lastPath") || "/";
@@ -34,16 +30,17 @@ export const RegisterPage = () => {
   };
 
   return (
-    <>
-      <div className="min-h-screen flex items-center justify-center bg-blue-50">
-        <div className="max-w-md w-full bg-white p-8 shadow-lg rounded-lg">
-          <h2 className="text-2xl font-bold mb-4 text-blue-700">Register</h2>
+    <div className="min-h-screen flex">
+      <div className="w-1/2 flex items-center justify-center bg-gray-300">
+        <img src={images.inicio1} alt="Background" className="w-70 h-70 object-cover" />
+      </div>
+
+      <div className="w-3/4 flex items-center justify-center bg-gray-900">
+        <div className="max-w-md w-full bg-white p-8 shadow-lg rounded-lg py-12">
+          <h2 className="text-2xl font-bold mb-4 text-black">Register</h2>
           <form onSubmit={onRegister}>
             <div className="mb-4">
-              <label
-                htmlFor="text"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name
               </label>
               <input
@@ -57,10 +54,7 @@ export const RegisterPage = () => {
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="LastName"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
                 Last Name
               </label>
               <input
@@ -74,10 +68,7 @@ export const RegisterPage = () => {
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="Username"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                 Username
               </label>
               <input
@@ -91,10 +82,7 @@ export const RegisterPage = () => {
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email
               </label>
               <input
@@ -108,10 +96,7 @@ export const RegisterPage = () => {
               />
             </div>
             <div className="mb-6">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <input
@@ -127,19 +112,19 @@ export const RegisterPage = () => {
             <button
               onClick={onRegister}
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700"
+              className="w-full bg-gray-900 text-white py-2 rounded-md hover:bg-gray-600"
             >
               Register
             </button>
           </form>
-          <span className="text-gray-700">
-            Do you have an existing account?
-          </span>
-          <Link to="/login" className="text-blue-500 ml-1">
-            Login
-          </Link>
+          <div className="mt-4 text-sm text-gray-700">
+            <span>Do you have an existing account?</span>
+            <Link to="/login" className="text-black ml-1">
+              Login
+            </Link>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
