@@ -4,6 +4,7 @@ import { socket } from "../home/socket";
 import { ConnectionState } from "../home/ConnectionState";
 import { ConnetionManager } from "../home/ConnetionManager";
 import { AuthContext } from "../../../auth";
+import axios from "axios";
 
 export const ChatApp = () => {
   const { user, logged } = useContext(AuthContext);
@@ -48,13 +49,21 @@ export const ChatApp = () => {
     setNewMessage(event.target.value);
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
 
     if (newMessage.trim() !== "") {
+      const response = await axios.post(
+        "http://localhost:3001/api/createPosts",
+        {
+          username: user.username,
+          body: newMessage,
+        }
+      );
+      console.log("esta es la respuesta de response" + ok);
       const payload = {
-        user,
+        user: response.username,
         text: newMessage,
         timestamp: new Date().toLocaleTimeString(),
         type: "msg",
@@ -75,41 +84,48 @@ export const ChatApp = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-300">
       <div className="flex flex-col items-center w-full max-w-2xl">
         <ConnetionManager />
-  
+
         <div className="w-full bg-white border border-gray-600 shadow-md rounded-lg mt-4">
           <div className="bg-gray-800 text-white p-4 rounded-t-lg">
             <h2 className="text-center text-xl font-bold">
               Chat Room <ConnectionState isConnected={isConnected} />
             </h2>
           </div>
-          <div
-            className="p-4 overflow-y-auto"
-            style={{ height: "400px" }}
-          >
+          <div className="p-4 overflow-y-auto" style={{ height: "400px" }}>
             <ul className="space-y-2">
               {messages.map((message, index) => (
                 <li key={index} className="bg-gray-100 rounded-lg p-2">
                   <div className="flex items-start space-x-2">
-                    {!logged && <strong className="text-gray-800">PayForPhoto</strong>}
-  
+                    {!logged && (
+                      <strong className="text-gray-800">PayForPhoto</strong>
+                    )}
+
                     {logged && (
                       <img
-                        src={message.user.userPhoto}
+                        src={user.userPhoto}
                         alt="Avatar"
                         className="w-10 h-10 rounded-full"
                       />
                     )}
-  
+
                     <div>
-                      {!logged && <strong className="text-gray-800">Indefinido</strong>}
-                      {logged && <strong className="text-gray-800">{message.user.username}</strong>}
+                      {!logged && (
+                        <strong className="text-gray-800">Indefinido</strong>
+                      )}
+                      {logged && (
+                        <strong className="text-gray-800">
+                          {user.username}
+                        </strong>
+                      )}
                       <span className="text-gray-500 text-sm ml-2">
                         {message.timestamp}
                       </span>
                     </div>
                   </div>
                   <p
-                    className={`mt-1 text-gray-700 ${isStatusMessage(message.type)}`}
+                    className={`mt-1 text-gray-700 ${isStatusMessage(
+                      message.type
+                    )}`}
                   >
                     {message.text}
                   </p>
@@ -140,4 +156,4 @@ export const ChatApp = () => {
       </div>
     </div>
   );
-};  
+};
