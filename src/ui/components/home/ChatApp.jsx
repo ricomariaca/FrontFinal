@@ -1,5 +1,4 @@
 import { useEffect, useState, useContext } from "react";
-import { faker } from "@faker-js/faker";
 import { socket } from "../home/socket";
 import { ConnectionState } from "../home/ConnectionState";
 import { ConnetionManager } from "../home/ConnetionManager";
@@ -14,6 +13,18 @@ export const ChatApp = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    const fetchTweets = async () => {
+      try {
+        const res = await axios.get("http://localhost:3001/api/getAllTweets");
+        console.log("Tweets fetched:", res.data.tweets);
+        setMessages(res.data.tweets);
+      } catch (error) {
+        console.error("Error fetching tweets:", error);
+      }
+    };
+
+    fetchTweets();
+
     const onConnect = () => {
       setIsConnected(true);
       const payload = {
@@ -54,25 +65,32 @@ export const ChatApp = () => {
     setIsLoading(true);
 
     if (newMessage.trim() !== "") {
-      const response = await axios.post(
-        "http://localhost:3001/api/createPosts",
-        {
-          username: user.username,
-          body: newMessage,
-        }
-      );
-      console.log("esta es la respuesta de response" + ok);
-      const payload = {
-        user: response.username,
-        text: newMessage,
-        timestamp: new Date().toLocaleTimeString(),
-        type: "msg",
-      };
+      try {
+        const { data } = await axios.post(
+          "http://localhost:3001/api/createPosts",
+          {
+            username: user.username,
+            body: newMessage,
+          }
+        );
 
-      socket.timeout(5000).emit("chat message", payload, () => {
+        console.log("Message created:", data.user);
+
+        const payload = {
+          user: data.user.username,
+          text: newMessage,
+          timestamp: new Date().toLocaleTimeString(),
+          type: "msg",
+        };
+
+        socket.timeout(1000).emit("chat message", payload, () => {
+          setIsLoading(false);
+          setNewMessage("");
+        });
+      } catch (error) {
+        console.error("Error in message submission:", error);
         setIsLoading(false);
-        setNewMessage("");
-      });
+      }
     }
   };
 
@@ -81,76 +99,82 @@ export const ChatApp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-300">
-      <div className="flex flex-col items-center w-full max-w-2xl">
-        <ConnetionManager />
-
-        <div className="w-full bg-white border border-gray-600 shadow-md rounded-lg mt-4">
-          <div className="bg-gray-800 text-white p-4 rounded-t-lg">
-            <h2 className="text-center text-xl font-bold">
-              Chat Room <ConnectionState isConnected={isConnected} />
-            </h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-200">
+      <div className="flex flex-col items-center w-full max-w-xl">
+        <div className="w-full bg-white border border-gray-300 rounded-lg mt-4 shadow">
+          <div className="bg-gray-900 text-white p-4 rounded-t-lg flex justify-between items-center">
+            <h2 className="text-xl font-bold">Inicio</h2>
+            <ConnetionManager />
+            <ConnectionState isConnected={isConnected} />
           </div>
-          <div className="p-4 overflow-y-auto" style={{ height: "400px" }}>
-            <ul className="space-y-2">
-              {messages.map((message, index) => (
-                <li key={index} className="bg-gray-100 rounded-lg p-2">
-                  <div className="flex items-start space-x-2">
-                    {!logged && (
-                      <strong className="text-gray-800">PayForPhoto</strong>
-                    )}
 
-                    {logged && (
-                      <img
-                        src={user.userPhoto}
-                        alt="Avatar"
-                        className="w-10 h-10 rounded-full"
-                      />
-                    )}
-
-                    <div>
-                      {!logged && (
-                        <strong className="text-gray-800">Indefinido</strong>
-                      )}
-                      {logged && (
-                        <strong className="text-gray-800">
-                          {user.username}
-                        </strong>
-                      )}
-                      <span className="text-gray-500 text-sm ml-2">
-                        {message.timestamp}
-                      </span>
-                    </div>
-                  </div>
-                  <p
-                    className={`mt-1 text-gray-700 ${isStatusMessage(
-                      message.type
-                    )}`}
-                  >
-                    {message.text}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="p-4 border-t">
-            <form onSubmit={onSubmit} className="flex space-x-2">
+          <div className="p-4 border-b border-gray-300">
+            <form onSubmit={onSubmit} className="flex space-x-3 items-center">
+              {logged && (
+                <img
+                  src={user.userPhoto}
+                  alt="Avatar"
+                  className="w-10 h-10 rounded-full"
+                />
+              )}
               <input
                 type="text"
                 value={newMessage}
                 onChange={handleInputChange}
-                placeholder="Type a message..."
-                className="flex-1 border rounded-md p-2"
+                placeholder="What is happening??"
+                className="flex-1 border border-gray-300 rounded-full p-3 text-gray-900 placeholder-gray-500 focus:outline-none"
                 disabled={isLoading || !isConnected}
               />
               <button
                 type="submit"
-                className="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-300 disabled:bg-gray-300"
+                className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 disabled:bg-gray-400"
                 disabled={isLoading || !isConnected}
+                onClick={() => setTimeout(() => window.location.reload(), 1)}
               >
                 Send
               </button>
             </form>
+          </div>
+
+          <div className="p-4 overflow-y-auto" style={{ maxHeight: "500px" }}>
+            <ul className="space-y-4">
+              {messages.map((message, _id) => (
+                <li key={_id} className="flex items-start space-x-3">
+                  <img
+                    src={message.userPhoto || "default-avatar-url.jpg"}
+                    alt="Avatar"
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      {!logged && (
+                        <strong className="text-gray-900">
+                          {message.username}
+                        </strong>
+                      )}
+                      {logged && (
+                        <>
+                          <strong className="text-gray-900">
+                            {message.username}
+                          </strong>
+                          <button>Seguir</button>
+                        </>
+                      )}
+                      <span className="text-gray-500 text-sm">
+                        {message.timestamp}
+                      </span>
+                    </div>
+                    <p
+                      className={`text-gray-700 mt-1 ${isStatusMessage(
+                        message.type
+                      )}`}
+                    >
+                      {message.body}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>
