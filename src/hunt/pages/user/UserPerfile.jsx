@@ -42,7 +42,6 @@ export const UserPerfile = () => {
                 alt="Profile"
               />
               <div>
-                <h2 className="text-lg font-bold">mariajose</h2>
                 <p className="text-gray-600">{user.username}</p>
               </div>
             </div>

@@ -19,7 +19,7 @@ const newEmptyReview = {
 
 export const ProductView = () => {
   const location = useLocation();
-  const { key, name, url, description, userName, UrlPhoto, IdUser } =
+  const { key, name, body, url, description, userName, UrlPhoto, IdUser } =
     location.state || {};
 
   const { logged, user } = useContext(AuthContext);
@@ -90,62 +90,39 @@ export const ProductView = () => {
       <div className="bg-teal-600 h-5"></div>
 
       <div className="grid grid-cols-4">
-        <div className="col-span-2">
-          <ImgGallery UrlImagen={url} />
-        </div>
+        <div className="col-span-2"></div>
 
         <div className="my-14 ">
-          <h1 className="font-bold">Title</h1>
+          <h1 className="font-bold">Username</h1>
           <span>{name}</span>
 
-          <div className="my-8">
-            <div>
-              <BsChatRight />
-            </div>
-            <div className="ms-5 ">
-              <StarRating />
-            </div>
-          </div>
+          <div className="my-8"></div>
           <div className="flex items-center">
             <img
-              src={UrlPhoto}
+              src={icons.user}
               alt="User Icon"
               className="w-8 h-8 cursor-pointer rounded-full"
             />
-            <label className="ml-2">{userName}</label>
-            {isFollowing ? (
-              <button className="text-gray-500 cursor-not-allowed" disabled>
-                Siguiendo
-              </button>
-            ) : (
-              <>
-                {!logged && (
-                  <>
-                    <label htmlFor=""></label> <br />
-                    <Link to="/login" className="text-md text-blue-500">
-                      Seguir
-                    </Link>
-                  </>
-                )}
 
-                {logged && (
-                  <button className="text-blue-500" onClick={onCreateFollowing}>
+            <>
+              {!logged && (
+                <>
+                  <label htmlFor=""></label> <br />
+                  <Link to="/login" className="text-md text-blue-500">
                     Seguir
-                  </button>
-                )}
-              </>
-            )}
+                  </Link>
+                </>
+              )}
+
+              {logged && <button className="text-blue-500">Seguir</button>}
+            </>
           </div>
           <div className="my-8">
             <p className="font-bold">description</p>
-            <span>{description}</span>
+            <span>{url}</span>
           </div>
         </div>
-        <div className="max-w-screen-md mx-auto my-auto p-4">
-          <button className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">
-            Visitar
-          </button>
-        </div>
+        <div className="max-w-screen-md mx-auto my-auto p-4"></div>
       </div>
 
       <div className="bg-gray-600 h-0.5 opacity-15"></div>
@@ -159,42 +136,7 @@ export const ProductView = () => {
             />
             <span className="mr-4">{user?.displayName}</span>
           </div>
-
-          <StarRating onRatingChange={handleRatingChange} />
-          <input
-            id="Review"
-            name="Review"
-            onChange={onInputChange}
-            value={Review}
-            type="text"
-            placeholder="Enter your comment"
-          />
         </div>
-        <div className="my-3">
-          {!logged && (
-            <>
-              <label htmlFor="">Si tanto quieres...</label> <br />
-              <Link to="/login" className="text-md text-blue-500">
-                login
-              </Link>
-            </>
-          )}
-
-          {logged && (
-            <button
-              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
-              onClick={onCreateReview}
-            >
-              Send
-            </button>
-          )}
-        </div>
-      </div>
-
-      <div className="bg-gray-600 h-0.5 opacity-15"></div>
-
-      <div className="my-3 ml-10 space-y-6">
-        <div className="text-xl font-bold">Product Reviews</div>
       </div>
     </>
   );
