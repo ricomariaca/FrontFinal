@@ -6,13 +6,9 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "../../../hooks";
 import { loadReview } from "../../helpers/loadReview";
 import { AuthContext } from "../../../auth";
-<<<<<<< HEAD
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-=======
-import { Link, useLocation } from "react-router-dom";
->>>>>>> 704fbc5452b885c2e7bafcfa72ed3227eaf56642
 
 const newEmptyReview = {
   Review: "",
@@ -55,7 +51,6 @@ export const ProductView = () => {
 
   const onCreateFollowing = async (event) => {
     event.preventDefault();
-<<<<<<< HEAD
 
     try {
       const res = await axios.post(
@@ -69,19 +64,6 @@ export const ProductView = () => {
     } catch (error) {
       console.error("Error fetching tweets:", error);
     }
-=======
-    const newfollow = {
-      IdSeguido: IdUser,
-      Siguindo: userName,
-      UrlPhotoSeguido: UrlPhoto,
-      seguidor: user.uid,
-      NameSeguidor: user.displayName,
-      UrlPhotoSeguidor: user.photoURL,
-    };
-    await saveFollow(newfollow);
-    setIsFollowing(true);
-    localStorage.setItem(`following_${IdUser}`, true);
->>>>>>> 704fbc5452b885c2e7bafcfa72ed3227eaf56642
   };
 
   return (
@@ -90,18 +72,14 @@ export const ProductView = () => {
 
       <div className="bg-gray-900 h-5"></div>
 
-     
       <div className="flex justify-center bg-gray-100 py-10">
         <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6">
-          
           <div className="flex items-center mb-6">
             <img
-              src={UrlPhoto || icons.user} 
+              src={UrlPhoto || icons.user}
               alt="User Icon"
               className="w-16 h-16 rounded-full"
             />
-<<<<<<< HEAD
-
             <>
               {!logged && (
                 <>
@@ -118,12 +96,11 @@ export const ProductView = () => {
                 </button>
               )}
             </>
-=======
+
             <div className="ml-4">
               <h1 className="text-xl font-semibold">{userName}</h1>
               <span className="text-gray-500">@{name}</span>
             </div>
->>>>>>> 704fbc5452b885c2e7bafcfa72ed3227eaf56642
           </div>
 
           <div className="flex justify-start mb-4">
@@ -132,7 +109,10 @@ export const ProductView = () => {
                 Seguir
               </Link>
             ) : (
-              <button onClick={onCreateFollowing} className="text-blue-700 font-semibold">
+              <button
+                onClick={onCreateFollowing}
+                className="text-blue-700 font-semibold"
+              >
                 {isFollowing ? "Siguiendo" : "Seguir"}
               </button>
             )}
@@ -140,7 +120,9 @@ export const ProductView = () => {
 
           <div className="mb-4">
             <p className="font-bold text-gray-600">Descripción:</p>
-            <p className="text-gray-700">{url || "No hay descripción disponible."}</p>
+            <p className="text-gray-700">
+              {url || "No hay descripción disponible."}
+            </p>
           </div>
 
           <div className="flex justify-around text-gray-700 mb-6">
