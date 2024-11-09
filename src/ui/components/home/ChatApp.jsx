@@ -147,45 +147,7 @@ export const ChatApp = () => {
           </div>
 
           <div className="p-4 overflow-y-auto" style={{ maxHeight: "500px" }}>
-            <ul className="space-y-4">
-              {card}
-              {messages.map((message, _id) => (
-                <li key={_id} className="flex items-start space-x-3">
-                  <img
-                    src={message.userPhoto || "default-avatar-url.jpg"}
-                    alt="Avatar"
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2">
-                      {!logged && (
-                        <strong className="text-gray-900">
-                          {message.username}
-                        </strong>
-                      )}
-                      {logged && (
-                        <>
-                          <strong className="text-gray-900">
-                            {message.username}
-                          </strong>
-                          <button>Seguir</button>
-                        </>
-                      )}
-                      <span className="text-gray-500 text-sm">
-                        {message.timestamp}
-                      </span>
-                    </div>
-                    <p
-                      className={`text-gray-700 mt-1 ${isStatusMessage(
-                        message.type
-                      )}`}
-                    >
-                      {message.body}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <ul className="space-y-4">{card}</ul>
           </div>
         </div>
       </div>

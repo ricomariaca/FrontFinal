@@ -4,11 +4,13 @@ import { StarRating } from "../../../ui/components/common/StarRating";
 import { BsChatRight } from "react-icons/bs";
 import { CiUser } from "react-icons/ci";
 import { useContext, useEffect, useState } from "react";
-import { ReviewContext } from "../../context";
+//import { ProductContext, ReviewContext, FollowContext } from "../../context";
 import { useForm } from "../../../hooks";
 import icons from "../../../assets/icons";
 import { loadReview } from "../../helpers/loadReview";
 import { AuthContext } from "../../../auth";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const newEmptyReview = {
   Review: "",
@@ -16,11 +18,18 @@ const newEmptyReview = {
 };
 
 export const ProductView = () => {
-  const { logged } = useContext(AuthContext);
-  const { saveReview, user } = useContext(ReviewContext);
-  console.log(user);
+  const location = useLocation();
+  const { key, name, url, description, userName, UrlPhoto, IdUser } =
+    location.state || {};
+
+  const { logged, user } = useContext(AuthContext);
+  //const { saveReview, user } = useContext(ReviewContext);
+  //const { product, ProductDescription } = useContext(ProductContext);
+  // const { saveFollow } = useContext(FollowContext);
+
   const { Review, star, onInputChange } = useForm(newEmptyReview);
   const [review, setReview] = useState([]);
+  const [isFollowing, setIsFollowing] = useState(false); // Estado para gestionar si se sigue al usuario
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -32,7 +41,14 @@ export const ProductView = () => {
       }
     };
     fetchReview();
-  }, []);
+
+    // Leer el estado de seguimiento desde localStorage
+    /*const followingState = localStorage.getItem(`following_${IdUser}`);
+    if (followingState) {
+      setIsFollowing(JSON.parse(followingState));
+    }
+    */
+  }, [IdUser]);
 
   const onCreateReview = async (event) => {
     event.preventDefault();
@@ -44,9 +60,25 @@ export const ProductView = () => {
     };
     await saveReview(newReview);
   };
+
   const handleRatingChange = (rating) => {
-    // Actualiza el estado de la calificación (star) cada vez que cambia
     onInputChange({ target: { name: "star", value: rating } });
+  };
+
+  const onCreateFollowing = async (event) => {
+    event.preventDefault();
+
+    const newfollow = {
+      IdSeguido: IdUser,
+      Siguindo: userName,
+      UrlPhotoSeguido: UrlPhoto,
+      seguidor: user.uid,
+      NameSeguidor: user.displayName,
+      UrlPhotoSeguidor: user.photoURL,
+    };
+    await saveFollow(newfollow);
+    setIsFollowing(true);
+    localStorage.setItem(`following_${IdUser}`, true);
   };
 
   return (
@@ -59,12 +91,12 @@ export const ProductView = () => {
 
       <div className="grid grid-cols-4">
         <div className="col-span-2">
-          <ImgGallery />
+          <ImgGallery UrlImagen={url} />
         </div>
 
         <div className="my-14 ">
           <h1 className="font-bold">Title</h1>
-          <span>Mkbook</span>
+          <span>{name}</span>
 
           <div className="my-8">
             <div>
@@ -74,13 +106,39 @@ export const ProductView = () => {
               <StarRating />
             </div>
           </div>
-          <div className="my8">
-            <p className="font-bold">User</p>
-            <span>juan patricio de montana</span>
+          <div className="flex items-center">
+            <img
+              src={UrlPhoto}
+              alt="User Icon"
+              className="w-8 h-8 cursor-pointer rounded-full"
+            />
+            <label className="ml-2">{userName}</label>
+            {isFollowing ? (
+              <button className="text-gray-500 cursor-not-allowed" disabled>
+                Siguiendo
+              </button>
+            ) : (
+              <>
+                {!logged && (
+                  <>
+                    <label htmlFor=""></label> <br />
+                    <Link to="/login" className="text-md text-blue-500">
+                      Seguir
+                    </Link>
+                  </>
+                )}
+
+                {logged && (
+                  <button className="text-blue-500" onClick={onCreateFollowing}>
+                    Seguir
+                  </button>
+                )}
+              </>
+            )}
           </div>
           <div className="my-8">
             <p className="font-bold">description</p>
-            <span>Una mkbook barata</span>
+            <span>{description}</span>
           </div>
         </div>
         <div className="max-w-screen-md mx-auto my-auto p-4">
@@ -90,15 +148,17 @@ export const ProductView = () => {
         </div>
       </div>
 
-      <div className="bg-teal-600 h-0.5"></div>
+      <div className="bg-gray-600 h-0.5 opacity-15"></div>
 
       <div className="grid grid-cols-2">
         <div className="my-3 ml-10 ">
-          <img
-            src={icons.user}
-            alt="User Icon"
-            className="w-8 h-8 cursor-pointer"
-          />
+          <div className="flex items-center">
+            <img
+              src={user?.photoURL}
+              className="w-8 h-8 cursor-pointer rounded-full mr-2"
+            />
+            <span className="mr-4">{user?.displayName}</span>
+          </div>
 
           <StarRating onRatingChange={handleRatingChange} />
           <input
@@ -111,7 +171,14 @@ export const ProductView = () => {
           />
         </div>
         <div className="my-3">
-          {!logged && <label htmlFor="">Jáaaa quisieras </label>}
+          {!logged && (
+            <>
+              <label htmlFor="">Si tanto quieres...</label> <br />
+              <Link to="/login" className="text-md text-blue-500">
+                login
+              </Link>
+            </>
+          )}
 
           {logged && (
             <button
@@ -124,24 +191,10 @@ export const ProductView = () => {
         </div>
       </div>
 
-      <div className="bg-teal-600 h-0.5"></div>
+      <div className="bg-gray-600 h-0.5 opacity-15"></div>
 
-      <div className="my-3 ml-10 ">
-        <div style={{ marginLeft: "50px" }} className="text-xl font-bold ">
-          product reviews
-        </div>
-        <div>
-          <ul>
-            {review.map((review) => (
-              <li key={review.id}>
-                {review.Review}
-                <br />
-                <span>La calificacion es </span>
-                {review.star}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="my-3 ml-10 space-y-6">
+        <div className="text-xl font-bold">Product Reviews</div>
       </div>
     </>
   );
