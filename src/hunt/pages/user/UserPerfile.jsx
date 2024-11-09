@@ -21,13 +21,13 @@ export const UserPerfile = () => {
         console.log("Tweets fetched:", res.data.tweets);
         setMessages(res.data.tweets);
 
-        const { data } = await axios.get(
-          `http://localhost:3001/api/following/${user.username}`
-        );
-        console.log("Follow fetched:", data.follow);
-        setFollow(data.follow);
+        const respo = await axios.get("http://localhost:3001/api/following", {
+          usernameSeguidor: user.username,
+        });
+        console.log("Follow fetched:", respo.data.follow);
+        setFollow(respo.data.follow);
       } catch (error) {
-        console.error("Error fetching tweets:", error);
+        console.error("Error fetching:", error);
       }
     };
 
@@ -99,11 +99,11 @@ export const UserPerfile = () => {
       <div className="p-4 overflow-y-auto" style={{ maxHeight: "500px" }}>
         <h1>FOLLOWING</h1>
         <ul className="space-y-4">
-          {follow.map((message, _id) => (
+          {follow.map((follows, _id) => (
             <li key={_id} className="flex items-start space-x-3">
               <div className="flex-1">
                 <div className="flex items-center space-x-2"></div>
-                <p>{message.usernameSeguido}</p>
+                <p>{follows.usernameSeguido}</p>
               </div>
             </li>
           ))}
