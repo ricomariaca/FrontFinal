@@ -4,6 +4,7 @@ import { ConnectionState } from "../home/ConnectionState";
 import { ConnetionManager } from "../home/ConnetionManager";
 import { AuthContext } from "../../../auth";
 import axios from "axios";
+import { CardProduct } from "../common/CardProduct";
 
 export const ChatApp = () => {
   const { user, logged } = useContext(AuthContext);
@@ -26,7 +27,12 @@ export const ChatApp = () => {
     fetchTweets();
 
     const onConnect = () => {
-      setIsConnected(true);
+      if (!logged) {
+        setIsConnected(false);
+      } else {
+        setIsConnected(true);
+      }
+
       const payload = {
         user,
         text: "Joined to the chat room",
@@ -98,6 +104,10 @@ export const ChatApp = () => {
     return type === "status" ? "fst-italic fw-light fs-8" : "";
   };
 
+  const card = messages.map((item) => (
+    <CardProduct key={item._id} body={item.body} username={item.username} />
+  ));
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="flex flex-col items-center w-full max-w-xl">
@@ -138,6 +148,7 @@ export const ChatApp = () => {
 
           <div className="p-4 overflow-y-auto" style={{ maxHeight: "500px" }}>
             <ul className="space-y-4">
+              {card}
               {messages.map((message, _id) => (
                 <li key={_id} className="flex items-start space-x-3">
                   <img

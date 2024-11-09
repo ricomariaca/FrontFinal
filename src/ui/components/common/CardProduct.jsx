@@ -7,33 +7,30 @@ export const CardProduct = (props) => {
   const { logged } = useContext(AuthContext);
   return (
     <>
-      {!logged && (
-        <NavLink to="/productView" className="nav-link text-teal-600 mr-96">
-          <img src={`../../../src/assets/img/${props.url}`} />
-        </NavLink>
-      )}
-
-      {logged && (
-        <>
-          <NavLink
-            to="/productViewlog"
-            className="nav-link text-teal-600 mr-96"
-          >
-            <img src={`../../../src/assets/img/${props.url}`} />
-          </NavLink>
-        </>
-      )}
       <div>
         <div>
-          <h1>{props.name}</h1>
-          <p>{props.description}</p>
           <div>
             <img src={icons.user} />
-            <img src={icons.totalR} />
-            <p>4.0</p>
-            <img src={icons.stars} />
+            {!logged && (
+              <NavLink
+                to="/productView"
+                className="nav-link text-teal-600 mr-96"
+              >
+                {props.username}
+              </NavLink>
+            )}
 
-            {/*<StarRating />*/}
+            {logged && (
+              <>
+                <NavLink
+                  to="/productViewlog"
+                  className="nav-link text-teal-600 mr-96"
+                >
+                  {props.username}
+                </NavLink>
+              </>
+            )}
+            <p>{props.body}</p>
           </div>
         </div>
       </div>

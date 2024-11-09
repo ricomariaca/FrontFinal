@@ -25,9 +25,12 @@ export const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex">
-      
       <div className="w-1/2 flex items-center justify-center bg-gray-300">
-        <img src={images.inicio1} alt="Background" className="w-70 h-70 object-cover" />
+        <img
+          src={images.inicio1}
+          alt="Background"
+          className="w-70 h-70 object-cover"
+        />
       </div>
       <div className="w-3/4 flex items-center justify-center bg-gray-900">
         <div className="max-w-md w-full bg-white p-8 shadow-xl rounded-xl">
