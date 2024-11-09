@@ -1,16 +1,12 @@
 import { ImgGallery } from "../../../ui/components/products/ImgGallery";
 import { Navbar } from "../../../ui/components/common/Navbar";
 import { StarRating } from "../../../ui/components/common/StarRating";
-import { BsChatRight } from "react-icons/bs";
-import { CiUser } from "react-icons/ci";
-import { useContext, useEffect, useState } from "react";
-//import { ProductContext, ReviewContext, FollowContext } from "../../context";
-import { useForm } from "../../../hooks";
 import icons from "../../../assets/icons";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "../../../hooks";
 import { loadReview } from "../../helpers/loadReview";
 import { AuthContext } from "../../../auth";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const newEmptyReview = {
   Review: "",
@@ -19,17 +15,11 @@ const newEmptyReview = {
 
 export const ProductView = () => {
   const location = useLocation();
-  const { key, name, body, url, description, userName, UrlPhoto, IdUser } =
-    location.state || {};
-
+  const { name, url, userName, UrlPhoto, IdUser } = location.state || {};
   const { logged, user } = useContext(AuthContext);
-  //const { saveReview, user } = useContext(ReviewContext);
-  //const { product, ProductDescription } = useContext(ProductContext);
-  // const { saveFollow } = useContext(FollowContext);
-
   const { Review, star, onInputChange } = useForm(newEmptyReview);
   const [review, setReview] = useState([]);
-  const [isFollowing, setIsFollowing] = useState(false); // Estado para gestionar si se sigue al usuario
+  const [isFollowing, setIsFollowing] = useState(false);
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -41,18 +31,10 @@ export const ProductView = () => {
       }
     };
     fetchReview();
-
-    // Leer el estado de seguimiento desde localStorage
-    /*const followingState = localStorage.getItem(`following_${IdUser}`);
-    if (followingState) {
-      setIsFollowing(JSON.parse(followingState));
-    }
-    */
   }, [IdUser]);
 
   const onCreateReview = async (event) => {
     event.preventDefault();
-
     const newReview = {
       Review: Review,
       userId: user.uid,
@@ -67,7 +49,6 @@ export const ProductView = () => {
 
   const onCreateFollowing = async (event) => {
     event.preventDefault();
-
     const newfollow = {
       IdSeguido: IdUser,
       Siguindo: userName,
@@ -83,61 +64,56 @@ export const ProductView = () => {
 
   return (
     <>
-      <div>
-        <Navbar />
-      </div>
+      <Navbar />
 
-      <div className="bg-teal-600 h-5"></div>
+      <div className="bg-gray-900 h-5"></div>
 
-      <div className="grid grid-cols-4">
-        <div className="col-span-2"></div>
-
-        <div className="my-14 ">
-          <h1 className="font-bold">Username</h1>
-          <span>{name}</span>
-
-          <div className="my-8"></div>
-          <div className="flex items-center">
+     
+      <div className="flex justify-center bg-gray-100 py-10">
+        <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6">
+          
+          <div className="flex items-center mb-6">
             <img
-              src={icons.user}
+              src={UrlPhoto || icons.user} 
               alt="User Icon"
-              className="w-8 h-8 cursor-pointer rounded-full"
+              className="w-16 h-16 rounded-full"
             />
-
-            <>
-              {!logged && (
-                <>
-                  <label htmlFor=""></label> <br />
-                  <Link to="/login" className="text-md text-blue-500">
-                    Seguir
-                  </Link>
-                </>
-              )}
-
-              {logged && <button className="text-blue-500">Seguir</button>}
-            </>
+            <div className="ml-4">
+              <h1 className="text-xl font-semibold">{userName}</h1>
+              <span className="text-gray-500">@{name}</span>
+            </div>
           </div>
-          <div className="my-8">
-            <p className="font-bold">description</p>
-            <span>{url}</span>
+
+          <div className="flex justify-start mb-4">
+            {!logged ? (
+              <Link to="/login" className="text-gray-900 text-md font-semibold">
+                Seguir
+              </Link>
+            ) : (
+              <button onClick={onCreateFollowing} className="text-blue-700 font-semibold">
+                {isFollowing ? "Siguiendo" : "Seguir"}
+              </button>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <p className="font-bold text-gray-600">Descripción:</p>
+            <p className="text-gray-700">{url || "No hay descripción disponible."}</p>
+          </div>
+
+          <div className="flex justify-around text-gray-700 mb-6">
+            <div className="text-center">
+              <span className="font-bold">10</span>
+              <p>Following</p>
+            </div>
+            <div className="text-center">
+              <span className="font-bold">20</span>
+              <p>Followers</p>
+            </div>
           </div>
         </div>
-        <div className="max-w-screen-md mx-auto my-auto p-4"></div>
       </div>
-
-      <div className="bg-gray-600 h-0.5 opacity-15"></div>
-
-      <div className="grid grid-cols-2">
-        <div className="my-3 ml-10 ">
-          <div className="flex items-center">
-            <img
-              src={user?.photoURL}
-              className="w-8 h-8 cursor-pointer rounded-full mr-2"
-            />
-            <span className="mr-4">{user?.displayName}</span>
-          </div>
-        </div>
-      </div>
+      <div className="bg-gray-900 h-5"></div>
     </>
   );
 };
