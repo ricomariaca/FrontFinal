@@ -3,6 +3,8 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { AuthContext } from "../context";
 import { useForm } from "../../hooks";
 import images from "../../assets/images";
+import { Link } from "react-router-dom";
+
 
 const initForm = {
   username: "",
@@ -32,9 +34,14 @@ export const LoginPage = () => {
           className="w-70 h-70 object-cover"
         />
       </div>
+      
       <div className="w-3/4 flex items-center justify-center bg-gray-900">
-        <div className="max-w-md w-full bg-white p-8 shadow-xl rounded-xl">
-          <h2 className="text-3xl font-bold text-black mb-6">Login</h2>
+        <div className="max-w-md w-full bg-white p-8 shadow-xl rounded-xl ">
+        <Link to="/" className="text-lg font-bold text-black flex items-center">
+         <img src={images.inicio1} alt="Icon" className=" w-8 h-8 mr-2 object-cover " />
+        </Link>
+        <h2 className="text-3xl font-bold text-black mb-6 ">Login</h2>
+
           <form>
             <div className="mb-4">
               <label

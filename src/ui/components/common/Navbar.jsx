@@ -35,31 +35,18 @@ export const Navbar = () => {
         </Link>
 
         <div className="flex items-center">
-          <img src={icon.mj} className="w-6 h-6" alt="Icon" />
+          
 
-          {!logged && (
-            <NavLink to="/login" className="nav-link text-black mr-96">
-              Login
-            </NavLink>
-          )}
+        {!logged && (
+         <NavLink to="/login" className="nav-link text-black mr-96 flex items-center">
+            <img src={icon.user} className="w-6 h-6 mr-2" alt="Icon" />
+            Login
+        </NavLink>
+)}
 
           {logged && (
             <>
-              <div className="justify-between">
-                <NavLink
-                  to="/addPoduct"
-                  className="nav-link text-teal-600 mr-20 flex items-center"
-                >
-                  <img
-                    src={icons.submit}
-                    alt=""
-                    className="inline-block align-text-top mr-2"
-                  />
-                  Submit
-                </NavLink>
-              </div>
-
-              <span className="mr-4 text-teal-600">
+              <span className="mr-4 text-gray-900">
                 {`Hello, ${user?.username}`}
               </span>
               <div className="relative mr-20">
