@@ -1,9 +1,7 @@
 import React, { useContext } from "react";
-
 import icons from "../../../assets/icons";
 import { AuthContext } from "../../../auth";
-import { ProductView } from "../../../hunt/pages/products/ProductView";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const CardProduct = (props) => {
   const { logged } = useContext(AuthContext);
@@ -20,35 +18,35 @@ export const CardProduct = (props) => {
   };
 
   return (
-    <>
-      <div>
-        <div>
-          {!logged ? (
-            <button
-              onClick={() => handleNavigate("/productView")}
-              className="nav-link "
-            >
-              {props.username}
-            </button>
-          ) : (
-            <button
-              onClick={() => handleNavigate("/productViewlog")}
-              className="nav-link"
-            >
-              {props.username}
-            </button>
-          )}
+    <div>
+      <div className="flex items-center space-x-2">
+        <img
+          src={icons.user}
+          alt="User Icon"
+          className="w-8 h-8 cursor-pointer rounded-full"
+        />
 
-          <img
-            src={icons.user}
-            alt="User Icon"
-            className="w-8 h-8 cursor-pointer rounded-full"
-          />
-        </div>
-        <div>
-          <p>{props.body}</p>
-        </div>
+        {!logged ? (
+          <button
+            onClick={() => handleNavigate("/productView")}
+            className="nav-link"
+          >
+            {props.username}
+          </button>
+        ) : (
+          <button
+            onClick={() => handleNavigate("/productViewlog")}
+            className="nav-link"
+          >
+            {props.username}
+          </button>
+        )}
       </div>
-    </>
+
+      <div>
+        <p>{props.body}</p>
+      </div>
+    </div>
   );
 };
+
