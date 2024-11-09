@@ -137,7 +137,7 @@ export const ChatApp = () => {
               />
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 disabled:bg-gray-400"
+                className="bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-gray-600 disabled:bg-gray-400"
                 disabled={isLoading || !isConnected}
                 onClick={() => setTimeout(() => window.location.reload(), 1)}
               >
