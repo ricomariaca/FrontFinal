@@ -9,6 +9,7 @@ export const UserPerfile = () => {
   const { user, logged } = useContext(AuthContext);
 
   const [messages, setMessages] = useState([]);
+  const [follow, setFollow] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -19,6 +20,12 @@ export const UserPerfile = () => {
         );
         console.log("Tweets fetched:", res.data.tweets);
         setMessages(res.data.tweets);
+
+        const { data } = await axios.get(
+          `http://localhost:3001/api/following/${user.username}`
+        );
+        console.log("Follow fetched:", data.follow);
+        setFollow(data.follow);
       } catch (error) {
         console.error("Error fetching tweets:", error);
       }
@@ -87,6 +94,20 @@ export const UserPerfile = () => {
             ))}
           </ul>
         </div>
+      </div>
+
+      <div className="p-4 overflow-y-auto" style={{ maxHeight: "500px" }}>
+        <h1>FOLLOWING</h1>
+        <ul className="space-y-4">
+          {follow.map((message, _id) => (
+            <li key={_id} className="flex items-start space-x-3">
+              <div className="flex-1">
+                <div className="flex items-center space-x-2"></div>
+                <p>{message.usernameSeguido}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </>
   );

@@ -11,6 +11,7 @@ import { loadReview } from "../../helpers/loadReview";
 import { AuthContext } from "../../../auth";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const newEmptyReview = {
   Review: "",
@@ -68,17 +69,18 @@ export const ProductView = () => {
   const onCreateFollowing = async (event) => {
     event.preventDefault();
 
-    const newfollow = {
-      IdSeguido: IdUser,
-      Siguindo: userName,
-      UrlPhotoSeguido: UrlPhoto,
-      seguidor: user.uid,
-      NameSeguidor: user.displayName,
-      UrlPhotoSeguidor: user.photoURL,
-    };
-    await saveFollow(newfollow);
-    setIsFollowing(true);
-    localStorage.setItem(`following_${IdUser}`, true);
+    try {
+      const res = await axios.post(
+        "http://localhost:3001/api/createfollowing",
+        {
+          usernameSeguidor: user.username,
+          usernameSeguido: name,
+          body: url,
+        }
+      );
+    } catch (error) {
+      console.error("Error fetching tweets:", error);
+    }
   };
 
   return (
@@ -114,7 +116,11 @@ export const ProductView = () => {
                 </>
               )}
 
-              {logged && <button className="text-blue-500">Seguir</button>}
+              {logged && (
+                <button className="text-blue-500" onClick={onCreateFollowing}>
+                  Seguir
+                </button>
+              )}
             </>
           </div>
           <div className="my-8">
